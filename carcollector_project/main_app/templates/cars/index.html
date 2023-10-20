@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Collector</title>
+</head>
+<body>
+  {% extends 'cars/base.html' %}
+  {% block content %}
+  
+  <h1>Car List</h1>
+  
+  {% for car in cars %}
+    <div class="card">
+      <div class="card-content">
+          <a href="{% url 'car_detail' car.id %}"">
+            <span class="card-title">{{ car.make }}</span>
+          </a>
+          <p>Nickname: {{ car.nickname }}</p>
+          <p>Model: {{ car.model }}</p>
+          <p>Year: {{ car.year }}</p>
+          <p>Color: {{ car.color }}</p>
+        </div>
+    </div>
+  {% endfor %}
+  
+  {% endblock %}
+</body>
+</html>
