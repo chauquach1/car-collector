@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
+from .forms import HistoryForm
 
 # Add UpdateView & DeleteView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -22,7 +23,23 @@ def cars_index(request):
 
 def cars_detail(request, car_id):
   car = Car.objects.get(id=car_id)
-  return render(request, 'cars/detail.html', { 'car': car })
+  history_form = HistoryForm()
+  return render(request, 'cars/detail.html', {
+    'car': car ,
+    'history_form': history_form
+  })
+
+def add_history(request, pk):
+  # create a ModelForm instance using the data in request.POST
+  form = HistoryForm(request.POST)
+  # validate the form
+  if form.is_valid():
+    # don't save the form to the db until it
+    # has the cat_id assigned
+    new_history = form.save(commit=False)
+    new_history.car_id = pk
+    new_history.save()
+  return redirect('car_detail', car_id=pk)
 
 class CarCreate(CreateView):
   model = Car

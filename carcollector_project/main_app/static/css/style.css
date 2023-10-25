@@ -12,3 +12,20 @@ footer.page-footer {
   padding-top: 0;
   text-align: right;
 }
+
+tbody {
+  display: block;
+  height: 150px;
+  overflow: auto;
+}
+thead, tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+thead {
+  width: calc( 100% - 1em )
+}
+table {
+  width: 100%;
+}

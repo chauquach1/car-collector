@@ -24,7 +24,49 @@
       <a href="{% url 'cars_delete' car.id %}">Delete</a>
     </div>
   </div>
-  
+  <div class="col s6">
+    <!-- Expenses Form -->
+    <form action="{% url 'add_history' car.id %}"  method="POST">
+      {% csrf_token %}
+      <!-- Render the inputs -->
+      {{ history_form.as_p }}
+      <input type="submit" class="btn" value="Add Expense">
+    </form>
+  </div>
+  <div class="col">
+    <h2>Expenses</h2>
+
+    <!-- Expenses History Table -->
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Category</th><th>Amount</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        {% for history in car.history_set.all %}
+          <tr>
+            <td>{{history.date}}</td>
+            <td>{{history.get_category_display}}</td>
+            <td>${{history.amount}}</td>
+            <td>{{history.description}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <script>
+    const dateEl = document.getElementById('id_date');
+    // M is Materialize's global variable
+    M.Datepicker.init(dateEl, {
+      format: 'yyyy-mm-dd',
+      defaultDate: new Date(),
+      setDefaultDate: true,
+      autoClose: true
+    });
+
+    // add additional JS to initialize select below
+    const selectEl = document.getElementById('id_category');
+    M.FormSelect.init(selectEl);
+  </script>
   {% endblock %}
 </body>
 </html>
