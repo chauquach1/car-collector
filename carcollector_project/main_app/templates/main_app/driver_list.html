@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  {% extends 'cars/base.html' %}
+  {% block content %}
+  
+  <h1>Driver List</h1>
+  
+  {% for driver in driver_list %}
+    <a href="{% url 'drivers_detail' driver.id %}">
+      <div class="card">
+          <div class="card-content">
+              <span class="card-title">{{ driver.name }}</span>
+              <p>Age: {{ driver.age }}</p>
+          </div>
+      </div>
+    </a>
+  {% endfor %}
+  
+  {% endblock %}
+</body>
+</html>

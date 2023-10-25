@@ -25,12 +25,26 @@ CAR_EXPENSES = (
 )
 
 # Create your models here.
+
+# Driver Model
+class Driver(models.Model):
+  name = models.CharField(max_length=50)
+  age = models.IntegerField()
+
+  def __str__(self):
+    return self.name
+
+  def get_absolute_url(self):
+    return reverse('driver_detail', kwargs={'pk': self.id})
+
+# Car Model
 class Car(models.Model):
   make = models.CharField(max_length=25)
   model = models.CharField(max_length=25)
   year = models.IntegerField(default=timezone.now().year)
   color = models.CharField(max_length=25)
   nickname = models.CharField(max_length=25, default='') 
+  drivers = models.ManyToManyField(Driver)
 
   def __str__(self):
     return f"{self.nickname}: {self.make} {self.model}"
@@ -39,6 +53,7 @@ class Car(models.Model):
     return reverse('detail', kwargs={'car_id': self.id})
   
 
+# History Model
 class History(models.Model):
   date = models.DateField('Date')
   category = models.CharField(
