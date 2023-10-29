@@ -3,9 +3,9 @@
   {% block content %}
   
   <h1>Car Details</h1>
-  <div class="row" style="display: flex; flex-direction: row; flex-wrap: wrap; margin-bottom: 12px;">
+  <div class="row" style="display: flex; flex-direction: row; justify-content: start; flex-wrap: wrap; margin-bottom: 12px;">
 
-    <div class="col s12 m6" style="height: 250px; margin-bottom: 1rem;">
+    <div class="col s12 m4" style="height: 250px; margin-bottom: 1rem;">
       <div class="card" style="height: 250px; margin: 0px; display: flex; flex-direction: column; justify-content: space-between;">
         <div class="card-content">
           <span class="card-title">{{ car.make }}</span>
@@ -23,37 +23,41 @@
       </div>
     </div>
 
-    <div class="col s12 m6" style="height: 250px; margin-bottom: 1rem;">
-      <div class="card" style="margin: 0px; display: flex; flex-direction: row; justify-content: center;">
+    <div class="col s12 m4" style="height: 250px; margin-bottom: 1rem;">
+      <div class="card" style="height: 250px; margin: 0px; display: block ; flex-direction: row; justify-content: space-between;">
         <div class="card-content" style="height: 250px;">
-          <p style="margin: 0px; text-decoration-line: underline">{{ car.nickname }}'s Drivers:</p>
-          {% if car.drivers.count %}
-            <ul style="margin: auto;">
-              {% for driver in car.drivers.all %}
-                      <li>{{ driver.name }}</li>
-              {% endfor %}
-            </ul>
-          {% else %}
-            <h5>No Drivers</h5>
-          {% endif %}
-        </div>
-        <div class="card-content" style="">
-          <h6 style="margin: 0px;">Available Drivers</h6>
-            {% if drivers.count %}
-            {% for driver in drivers.all %}
-              <form action="{% url 'assoc_driver' car.id driver.id %}" method="POST">
-                <button id="add-driver-btn" type="submit" class="btn">
-                    {{ driver.name }} ({{driver.age}} yo)
-                    {% csrf_token %}
-                      +
-                  </button>
-              </form>
-            {% endfor %}
-            {% else %}
-              <h1>{{car.nickname}} Already Has All Available Drivers</h1>
-            {% endif %}
+            <div class="col">
+              <p style="margin: 0px; text-decoration-line: underline">{{ car.nickname }}'s Drivers:</p>
+              {% if car.drivers.count %}
+                  {% for driver in car.drivers.all %}
+                          <a href="{% url 'drivers_index' %}">{{ driver.name }}</a>
+                  {% endfor %}
+              {% else %}
+                <h5>No Drivers</h5>
+              {% endif %}
+            </div>
+            <div class="col" style="overflow-y: scroll">
+              <p style="margin: 0px; text-decoration-line: underline">Available Drivers</p>
+              <div class="col" style="display: flex; flex-wrap: wrap;">
+                {% if drivers.count %}
+                {% for driver in drivers.all %}
+                  <form action="{% url 'assoc_driver' car.id driver.id %}" method="POST">
+                    <button id="add-driver-btn" type="submit" class="btn" style="margin: 2px;">
+                      {{ driver.name }}
+                      {% csrf_token %}
+                    </button>
+                  </form>
+                {% endfor %}
+                {% else %}
+                <p>{{ car.nickname }} Already Has All Available Drivers</p>
+                {% endif %}
+              </div>
+            </div>
         </div>
       </div>
+    </div>
+
+    <div class="col s12 m4" style="height: 250px; margin-bottom: 1rem;">
     </div>
 
   </div>

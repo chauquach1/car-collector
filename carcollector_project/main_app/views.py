@@ -60,11 +60,12 @@ def assoc_driver(request, pk, driver_pk):
 # Car Views
 class CarCreate(CreateView):
   model = Car
-  fields = '__all__'
+  fields = ['make', 'model', 'year', 'color', 'nickname']
   # Special string pattern Django will use
   def get_success_url(self):
       # Use reverse to generate the URL based on the car_id of the newly created Car instance
       return reverse('car_detail', args=[self.object.id])
+  
 class CarUpdate(UpdateView):
   model = Car
   # Let's disallow the renaming of a car by excluding the name field!
@@ -86,9 +87,15 @@ class DriverCreate(CreateView):
   model = Driver
   fields = '__all__'
 
+  def get_success_url(self):
+    return reverse('drivers_detail', args=[self.object.id])
+
 class DriverUpdate(UpdateView):
   model = Driver
   fields = ['name', 'age']
+
+  def get_success_url(self):
+    return reverse('drivers_detail', args=[self.object.id])
 
 class DriverDelete(DeleteView):
   model = Driver
